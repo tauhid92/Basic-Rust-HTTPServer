@@ -1,8 +1,22 @@
 fn main() {
-    let string = String::from("Hello World!!");
-    let string_slice = &string[10..];
+    let address: String = String::from("127.0.0.1.8080");
 
-    dbg!(&string);
-    dbg!(string_slice);
+    let server: Server = Server::new(address);
+    server.run();
 }
+struct Server {
+    address : String
+}
+
+impl Server {
+    fn new(address: String) -> Self {
+        Self { address }
+    }
+
+    fn run(self){
+       let port = &self.address[10..];
+        println!("Server running at port: {}",port);
+    }
+}
+
 
