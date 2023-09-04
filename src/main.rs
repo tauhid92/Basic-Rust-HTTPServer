@@ -15,8 +15,24 @@ impl Server {
 
     fn run(self){
        let port = &self.address[10..];
-        println!("Server running at port: {}",port);
+        println!("Server listening at port: {}",port);
     }
 }
+
+struct Request {
+    path: String,
+    query_string: Option<String>,
+    method: Method
+}
+
+enum Method{
+    GET, POST, PUT, DELETE, PATCH, OPTIONS, CONNECT, HEAD, TRACE
+}
+
+/*
+GET /user?id=10 HTTP/1.1\r\n
+HEADERS \r\n
+BODY
+*/
 
 
