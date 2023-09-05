@@ -10,8 +10,19 @@ impl Server {
     }
 
     pub fn run(self){
-        let listener = TcpListener::bind(&self.address).unwrap();
-       
         println!("Server listening at port: {}",self.address);
+        let listener = TcpListener::bind(&self.address).unwrap();
+
+        loop {
+           let res = listener.accept();
+
+           if res.is_err(){
+            continue;
+           }
+
+           let (stream, addr) = res.unwrap();
+        }
+       
+        
     }
 }
