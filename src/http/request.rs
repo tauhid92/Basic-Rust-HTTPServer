@@ -4,3 +4,9 @@ pub struct Request {
     query_string: Option<String>,
     method: Method
 }
+
+impl Request {
+    pub fn process_request(self) -> String{
+        "".to_string()
+    }
+}
