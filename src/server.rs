@@ -25,7 +25,12 @@ impl Server {
                             println!("Received a request: {}", String::from_utf8_lossy(&buffer));
 
                             // Request::try_from(&buffer as &[u8]); or
-                            Request::try_from(&buffer[..]);
+                            match Request::try_from(&buffer[..]){
+                                Ok(request) => {},
+                                Err(e) => {
+                                    println!("Failed to parse request.")
+                                }
+                            }
                         },
                         Err(e) => {
                             println!("Failed to read from connection: {}", e);
