@@ -1,3 +1,4 @@
+use std::str;
 use super::method::Method;
 use std::convert:: TryFrom;
 use std::error::Error;
@@ -14,6 +15,10 @@ impl TryFrom<&[u8]> for Request {
 
     // GET search?name=abc&sort=1 HTTP/1.1
     fn try_from(value: &[u8]) -> Result<Self, Self::Error> {
+        match str::from_utf8(buf){
+            Ok(request) => {},
+            Err(_) => {}
+        }
         unimplemented!()
     }
 }
