@@ -1,4 +1,5 @@
 use super::method::Method;
+use std::convert:: TryFrom;
 pub struct Request {
     path: String,
     query_string: Option<String>,
@@ -6,7 +7,17 @@ pub struct Request {
 }
 
 impl Request {
-    pub fn process_request(self) -> String{
-        "".to_string()
+
+    fn from_byte_array(buf: &[u8]) -> Result<Self, String>{
+        unimplemented!()
     }
 }
+
+impl TryFrom<&[u8]> for Request {
+    type Error = String;
+
+    fn try_from(value: &[u8]) -> Result<Self, Self::Error> {
+        unimplemented!()
+    }
+}
+
