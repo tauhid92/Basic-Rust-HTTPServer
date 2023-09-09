@@ -13,6 +13,3 @@ fn main() {
     let server: Server = Server::new(address);
     server.run();
 }
-
-
-
