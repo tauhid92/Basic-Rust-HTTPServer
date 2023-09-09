@@ -32,6 +32,11 @@ impl TryFrom<&[u8]> for Request {
         // '?' is basically a declarative macro
         let request = str::from_utf8(buf)?;
 
+        match get_next_word(request) {
+            Some((method, request)) => {},
+            None => return Err(ParseError::InvalidEncoding)
+        }
+
         unimplemented!()
     }
 }
