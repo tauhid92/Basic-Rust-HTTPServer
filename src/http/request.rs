@@ -37,22 +37,6 @@ impl TryFrom<&[u8]> for Request {
 
         let mut query_string: Option<&str> = None;
 
-        // match path.find('?'){
-        //     Some(i) => {
-        //         query_string = Some(&path[i+1..]);
-        //         path = &path[i+1..];
-        //     },
-        //     None => {}
-        // }
-
-        // let q = path.find('?');
-        // if q.is_some(){
-        //     let i = q.unwrap();
-        //     query_string = Some(&path[i+1..]);
-        //     path = &path[i+1..];
-        // }
-
-        // if let implementation reason
         if let Some(i) = path.find('?'){
             query_string = Some(&path[i+1..]);
             path = &path[i+1..];
