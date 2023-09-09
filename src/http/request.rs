@@ -1,6 +1,6 @@
 use std::str;
 use std::str::Utf8Error;
-use super::method::Method;
+use super::method::{Method, MethodError};
 use std::convert:: TryFrom;
 use std::error::Error;
 use std::fmt::{Result as FmtResult, Formatter, Display, Debug};
@@ -19,11 +19,12 @@ impl TryFrom<&[u8]> for Request {
 
         let request = str::from_utf8(buf)?;
 
-        // match get_next_word(request) {
-        //     Some((method, request)) => {},
-        //     None => return Err(ParseError::InvalidEncoding)
-        // }
-
+        // Variable shadowing is going on here:
+        /**
+         * Variable shadowing in Rust is the practice of 
+         * declaring a new variable with the same name as an existing variable
+         * within a narrower scope, temporarily hiding the outer variable.
+         */
         let (method, request)=get_next_word(request).ok_or(ParseError::InvalidRequest)?;
         let (path, request)=get_next_word(request).ok_or(ParseError::InvalidRequest)?;
         let (protocol, _)=get_next_word(request).ok_or(ParseError::InvalidRequest)?;
@@ -31,6 +32,8 @@ impl TryFrom<&[u8]> for Request {
         if protocol != "HTTP/1.1"{
             return Err(ParseError::InvalidRequest);
         }
+
+        let method: Method = method.parse()?;
 
         unimplemented!()
     }
@@ -73,6 +76,12 @@ Doing this so we can write this code snippet
 impl From<Utf8Error> for ParseError{
     fn from(_: Utf8Error) -> Self{
         Self::InvalidEncoding
+    }
+}
+
+impl From<MethodError> for ParseError{
+    fn from(_: MethodError) -> Self{
+        Self::InvalidMethod
     }
 }
 
