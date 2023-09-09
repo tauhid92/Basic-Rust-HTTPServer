@@ -26,7 +26,7 @@ impl TryFrom<&[u8]> for Request {
          * within a narrower scope, temporarily hiding the outer variable.
          */
         let (method, request)=get_next_word(request).ok_or(ParseError::InvalidRequest)?;
-        let (path, request)=get_next_word(request).ok_or(ParseError::InvalidRequest)?;
+        let (mut path, request)=get_next_word(request).ok_or(ParseError::InvalidRequest)?;
         let (protocol, _)=get_next_word(request).ok_or(ParseError::InvalidRequest)?;
 
         if protocol != "HTTP/1.1"{
@@ -34,6 +34,29 @@ impl TryFrom<&[u8]> for Request {
         }
 
         let method: Method = method.parse()?;
+
+        let mut query_string: Option<&str> = None;
+
+        // match path.find('?'){
+        //     Some(i) => {
+        //         query_string = Some(&path[i+1..]);
+        //         path = &path[i+1..];
+        //     },
+        //     None => {}
+        // }
+
+        // let q = path.find('?');
+        // if q.is_some(){
+        //     let i = q.unwrap();
+        //     query_string = Some(&path[i+1..]);
+        //     path = &path[i+1..];
+        // }
+
+        // if let implementation reason
+        if let Some(i) = path.find('?'){
+            query_string = Some(&path[i+1..]);
+            path = &path[i+1..];
+        }
 
         unimplemented!()
     }
