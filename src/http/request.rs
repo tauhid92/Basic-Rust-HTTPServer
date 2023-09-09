@@ -1,4 +1,5 @@
 use std::str;
+use std::str::Utf8Error;
 use super::method::Method;
 use std::convert:: TryFrom;
 use std::error::Error;
@@ -14,13 +15,23 @@ impl TryFrom<&[u8]> for Request {
     type Error = ParseError;
 
     // GET search?name=abc&sort=1 HTTP/1.1
-    fn try_from(value: &[u8]) -> Result<Self, Self::Error> {
-        match str::from_utf8(buf){
-            Ok(request) => {},
-            Err(_) => {}
-        }
+    fn try_from(buf: &[u8]) -> Result<Self, Self::Error> {
+        // match str::from_utf8(buf){
+        //     Ok(request) => {},
+        //     Err(_) => return Err(ParseError::InvalidEncoding),
+        // }
+
+        // match str::from_utf8(buf).or(Err(ParseError::InvalidEncoding)){
+        //     Ok(request) => {},
+        //     Err(e) => return Err(e),
+        // }
+
+        // let request = str::from_utf8(buf).or(Err(ParseError::InvalidEncoding))?;
+
+        // All the code above can be abridged to this line however you need to implement a trait From<Utf8Error>
+        let request = str::from_utf8(buf)?;
+
         unimplemented!()
-        //comment
     }
 }
 pub enum ParseError {
@@ -38,6 +49,17 @@ impl ParseError {
             Self::InvalidEncoding => "Invalid Encoding",
             Self::InvalidMethod => "Invalid Method",
         }
+    }
+}
+
+/*
+Doing this so we can write this code snippet 
+`let request = str::from_utf8(buf)?;` instead of
+`let request = str::from_utf8(buf).or(Err(ParseError::InvalidEncoding))?`
+*/
+impl From<Utf8Error> for ParseError{
+    fn from(_: Utf8Error) -> Self{
+        Self::InvalidEncoding
     }
 }
 
