@@ -29,6 +29,7 @@ impl TryFrom<&[u8]> for Request {
         // let request = str::from_utf8(buf).or(Err(ParseError::InvalidEncoding))?;
 
         // All the code above can be abridged to this line however you need to implement a trait From<Utf8Error>
+        // '?' is basically a declarative macro
         let request = str::from_utf8(buf)?;
 
         unimplemented!()
