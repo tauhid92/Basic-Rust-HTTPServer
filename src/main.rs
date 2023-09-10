@@ -1,8 +1,5 @@
+#![allow(dead_code)]
 use server::Server;
-use http::Request;
-use http::Method;
-// use http::request::Request;
-// use http::method::Method;
 
 mod http;
 mod server;
