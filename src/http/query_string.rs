@@ -14,3 +14,9 @@ impl<'buf> QueryString<'buf>{
         self.data.get(key)
     }
 }
+
+impl<'buf> From<&'buf str> for QueryString<'buf>{
+    fn from(s: &'buf str) -> Self {
+        unimplemented!()
+    }
+}
