@@ -26,7 +26,9 @@ impl Server {
 
                             // Request::try_from(&buffer as &[u8]); or
                             match Request::try_from(&buffer[..]){
-                                Ok(request) => {},
+                                Ok(request) => {
+                                    dbg!(request);
+                                },
                                 Err(e) => {
                                     println!("Failed to parse request.")
                                 }
