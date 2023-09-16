@@ -25,17 +25,20 @@ impl Server {
                             println!("Received a request: {}", String::from_utf8_lossy(&buffer));
 
                             // Request::try_from(&buffer as &[u8]); or
-                            match Request::try_from(&buffer[..]){
+                            let response = match Request::try_from(&buffer[..]){
                                 Ok(request) => {
                                     dbg!(request);
-                                    let response = Response::new(StatusCode::Ok,
-                                        Some("<h1>Hello! Hello!</h1>".to_string()));
-                                    response.send(&mut stream);
+                                    Response::new(StatusCode::Ok,
+                                        Some("<h1>Hello! Hello!</h1>".to_string()))
                                 },
                                 Err(e) => {
                                     println!("Failed to parse request.");
-                                    Response::new(StatusCode::NotFound, None);
+                                    Response::new(StatusCode::NotFound, None)
                                 }
+                            };
+
+                            if let Err(e) = response.send(&mut stream){
+                                println!("Failed to send request")
                             }
                         },
                         Err(e) => {
