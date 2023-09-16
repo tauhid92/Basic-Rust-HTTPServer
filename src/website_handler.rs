@@ -38,18 +38,8 @@ impl Handler for WebsiteHandler{
                     None => Response::new(StatusCode::NotFound, None)
                 },
 
-                // _ => Response::new(StatusCode::NotFound, None),
             },
             _ => Response::new(StatusCode::NotFound, None),
-            // Method::GET => todo!(),
-            // Method::POST => todo!(),
-            // Method::PUT => todo!(),
-            // Method::DELETE => todo!(),
-            // Method::PATCH => todo!(),
-            // Method::OPTIONS => todo!(),
-            // Method::CONNECT => todo!(),
-            // Method::HEAD => todo!(),
-            // Method::TRACE => todo!(),
         }
     }
 }
