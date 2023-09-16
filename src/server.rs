@@ -7,7 +7,10 @@ use std::io::{Read, Write};
 pub trait Handler {
     fn handle_request(&mut self, request: &Request) -> Response;
 
-    fn handle_bad_request(&mut self, e: &ParseError) -> Response;
+    fn handle_bad_request(&mut self, e: &ParseError) -> Response{
+        println!("Failed to parse request: {}", e);
+        Response::new(StatusCode::BadRequest, None)
+    }
 }
 pub struct Server {
     address : String
@@ -32,7 +35,7 @@ impl Server {
 
                             let response = match Request::try_from(&buffer[..]){
                                 Ok(request) => handler.handle_request(&request),
-                                Err(e) => handler.handle_bad_request(&request)
+                                Err(e) => handler.handle_bad_request(&e)
                             };
 
                             if let Err(e) = response.send(&mut stream){
@@ -50,6 +53,5 @@ impl Server {
             }
         }
        
-        
     }
 }
