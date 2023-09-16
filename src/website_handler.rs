@@ -23,7 +23,12 @@ impl Handler for WebsiteHandler{
             Method::GET => match request.path() {
                 "/" => Response::new(StatusCode::Ok, self.read_file("index.html")),
                 "/dynamicView" => Response::new(StatusCode::Ok, Some("<h1>Nostalgia!!!</h2>".to_string())),
-                _ => Response::new(StatusCode::NotFound, None),
+                path => match self.read_file(path) {
+                    Some(contents) => Response::new(StatusCode::Ok, Some(contents)),
+                    None => Response::new(StatusCode::NotFound, None)
+                },
+                
+                // _ => Response::new(StatusCode::NotFound, None),
             },
             _ => Response::new(StatusCode::NotFound, None),
             // Method::GET => todo!(),
