@@ -30,7 +30,6 @@ impl Server {
                         Ok(_) => {
                             println!("Received a request: {}", String::from_utf8_lossy(&buffer));
 
-                            // Request::try_from(&buffer as &[u8]); or
                             let response = match Request::try_from(&buffer[..]){
                                 Ok(request) => handler.handle_request(&request),
                                 Err(e) => handler.handle_bad_request(&request)
